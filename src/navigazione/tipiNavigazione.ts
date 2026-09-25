@@ -1,5 +1,8 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps } from '@react-navigation/native';
+import {
+  CompositeScreenProps,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Categoria } from '../tipi';
 
@@ -14,8 +17,10 @@ export type ParametriStackRadice = {
 };
 
 // Tab in basso, per l'utente loggato.
+// Home contiene uno stack: NavigatorScreenParams permette di dire quale
+// schermata aprire DENTRO la tab (es. { screen: 'Vetrina' }).
 export type ParametriTab = {
-  Home: undefined;
+  Home: NavigatorScreenParams<ParametriStackHome> | undefined;
   Carrello: undefined;
   Profilo: undefined;
 };

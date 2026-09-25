@@ -57,6 +57,7 @@ function TabPrincipali() {
         component={Carrello}
         options={{
           tabBarIcon: iconaCarrello,
+          tabBarButtonTestID: 'tab-carrello', // per trovarla nei test
           // undefined = nessun badge (carrello vuoto)
           tabBarBadge: numeroElementi > 0 ? numeroElementi : undefined,
           tabBarBadgeStyle: {

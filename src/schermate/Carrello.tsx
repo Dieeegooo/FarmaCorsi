@@ -31,9 +31,15 @@ function Carrello({ navigation }: PropsCarrello) {
           Cerca un prodotto e scegli la farmacia da cui fartelo consegnare.
         </Text>
         <View style={styles.pulsanteVuoto}>
+          {/* Solo 'Home' riaprirebbe l'ultima schermata della tab (es. un
+              dettaglio prodotto). Chiediamo la Vetrina, e con pop: true le
+              schermate sopra vengono chiuse: in React Navigation 7 navigate
+              altrimenti ne aggiungerebbe una nuova in cima. */}
           <Pulsante
             titolo="Cerca un prodotto"
-            onPremi={() => navigation.navigate('Home')}
+            onPremi={() =>
+              navigation.navigate('Home', { screen: 'Vetrina', pop: true })
+            }
           />
         </View>
       </View>
