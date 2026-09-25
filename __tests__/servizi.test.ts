@@ -5,6 +5,7 @@ import {
   cercaProdotti,
   ottieniFarmacieConProdotto,
   ottieniPiuCercati,
+  ottieniProdotto,
 } from '../src/servizi/servizioProdotti';
 import {
   cancellaSessione,
@@ -115,5 +116,21 @@ describe('servizioProdotti', () => {
     expect(farmacie).toHaveLength(3);
     const distanze = farmacie.map(f => f.distanzaKm);
     expect(distanze).toEqual([...distanze].sort((a, b) => a - b));
+  });
+});
+
+describe('prodotti demo con immagine e specifiche', () => {
+  test('6 prodotti hanno illustrazione e specifiche', async () => {
+    const prodotti = await risolvi(cercaProdotti(''));
+    const conImmagine = prodotti.filter(p => p.aspetto !== undefined);
+    expect(conImmagine.map(p => p.id).sort()).toEqual(
+      ['p01', 'p02', 'p04', 'p10', 'p13', 'p17'],
+    );
+    expect(conImmagine.every(p => p.specifiche !== undefined)).toBe(true);
+  });
+
+  test('la Tachipirina ha il principio attivo', async () => {
+    const tachipirina = await risolvi(ottieniProdotto('p01'));
+    expect(tachipirina?.specifiche?.principioAttivo).toBe('Paracetamolo 500 mg');
   });
 });

@@ -3,7 +3,7 @@ import IconaCarrello from '../icone/IconaCarrello';
 import IconaHome from '../icone/IconaHome';
 import IconaProfilo from '../icone/IconaProfilo';
 import Carrello from '../schermate/Carrello';
-import Home from '../schermate/Home';
+import StackHome from './StackHome';
 import Profilo from '../schermate/Profilo';
 import { colori, dimensioniTesto, pesi } from '../tema';
 import { ParametriTab } from './tipiNavigazione';
@@ -44,7 +44,7 @@ function TabPrincipali() {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={StackHome}
         options={{ tabBarIcon: iconaHome, headerShown: false }}
       />
       <Tab.Screen

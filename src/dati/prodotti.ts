@@ -12,6 +12,24 @@ const prodotti: Prodotto[] = [
       'Paracetamolo per abbassare la febbre e calmare il mal di testa e i dolori leggeri.',
     categoria: 'dolore-febbre',
     piuCercato: true,
+    aspetto: {
+      forma: 'scatola',
+      coloreSfondo: '#FFFFFF',
+      coloreFascia: '#1E4FA0',
+      coloreAccento: '#E2231A',
+      scritta: 'Tachipirina',
+      sottoscritta: '500 mg',
+    },
+    specifiche: {
+      tipologia: 'Farmaco senza obbligo di ricetta',
+      principioAttivo: 'Paracetamolo 500 mg',
+      indicazioni:
+        'Febbre, mal di testa, mal di denti e dolori lievi o moderati.',
+      modoUso:
+        'Segui dosi e intervalli indicati nel foglio illustrativo, senza superare la dose massima giornaliera.',
+      avvertenze:
+        'Non usarlo insieme ad altri medicinali che contengono paracetamolo. In caso di malattie del fegato chiedi prima al medico.',
+    },
   },
   {
     id: 'p02',
@@ -22,6 +40,24 @@ const prodotti: Prodotto[] = [
       'Ibuprofene contro mal di testa, mal di denti e dolori mestruali.',
     categoria: 'dolore-febbre',
     piuCercato: true,
+    aspetto: {
+      forma: 'scatola',
+      coloreSfondo: '#FFFFFF',
+      coloreFascia: '#C8102E',
+      coloreAccento: '#F2A900',
+      scritta: 'Moment',
+      sottoscritta: '200 mg',
+    },
+    specifiche: {
+      tipologia: 'Farmaco senza obbligo di ricetta',
+      principioAttivo: 'Ibuprofene 200 mg',
+      indicazioni:
+        'Mal di testa, mal di denti, dolori mestruali, dolori muscolari e articolari.',
+      modoUso:
+        'Da assumere preferibilmente a stomaco pieno, secondo le indicazioni del foglio illustrativo.',
+      avvertenze:
+        'Non usarlo in caso di ulcera o di allergia ai farmaci antinfiammatori (FANS). In gravidanza chiedi prima al medico.',
+    },
   },
   {
     id: 'p03',
@@ -42,6 +78,24 @@ const prodotti: Prodotto[] = [
       'Gel al diclofenac per dolori muscolari, contusioni e distorsioni.',
     categoria: 'dolore-febbre',
     piuCercato: false,
+    aspetto: {
+      forma: 'tubo',
+      coloreSfondo: '#FFFFFF',
+      coloreFascia: '#0B2D71',
+      coloreAccento: '#E4002B',
+      scritta: 'Voltaren',
+      sottoscritta: 'Emulgel 1%',
+    },
+    specifiche: {
+      tipologia: 'Farmaco senza obbligo di ricetta',
+      principioAttivo: 'Diclofenac 1%',
+      indicazioni:
+        'Dolori muscolari e articolari, contusioni, distorsioni e piccoli traumi.',
+      modoUso:
+        'Applica uno strato sottile sulla zona dolorante massaggiando leggermente, poi lavati le mani.',
+      avvertenze:
+        'Solo per uso esterno. Non applicarlo su pelle ferita o irritata e non esporre al sole la zona trattata.',
+    },
   },
   {
     id: 'p05',
@@ -97,6 +151,24 @@ const prodotti: Prodotto[] = [
     descrizione: 'Fermenti lattici per riequilibrare la flora intestinale.',
     categoria: 'digestione',
     piuCercato: true,
+    aspetto: {
+      forma: 'flacone',
+      coloreSfondo: '#FFFFFF',
+      coloreFascia: '#0093D0',
+      coloreAccento: '#FFD100',
+      scritta: 'Enterogermina',
+      sottoscritta: '2 miliardi',
+    },
+    specifiche: {
+      tipologia: 'Farmaco senza obbligo di ricetta',
+      principioAttivo: 'Spore di Bacillus clausii (2 miliardi)',
+      indicazioni:
+        'Riequilibrio della flora intestinale, ad esempio durante o dopo una cura antibiotica.',
+      modoUso:
+        'Agita il flaconcino e bevine il contenuto, puro o diluito in poca acqua.',
+      avvertenze:
+        "Se stai prendendo un antibiotico, assumilo a distanza di qualche ora dall'antibiotico.",
+    },
   },
   {
     id: 'p11',
@@ -125,6 +197,22 @@ const prodotti: Prodotto[] = [
       'Crema alla provitamina B5 che aiuta la pelle irritata a rigenerarsi.',
     categoria: 'pelle-solari',
     piuCercato: true,
+    aspetto: {
+      forma: 'tubo',
+      coloreSfondo: '#FFFFFF',
+      coloreFascia: '#00857C',
+      coloreAccento: '#8CC63F',
+      scritta: 'Bepanthenol',
+      sottoscritta: 'crema',
+    },
+    specifiche: {
+      tipologia: 'Cosmetico',
+      principioAttivo: 'Dexpantenolo (provitamina B5) 5%',
+      indicazioni: 'Pelle secca, arrossata o irritata, anche delicata.',
+      modoUso:
+        'Applica una o più volte al giorno sulla pelle pulita e massaggia fino ad assorbimento.',
+      avvertenze: 'Solo per uso esterno. Evita il contatto con gli occhi.',
+    },
   },
   {
     id: 'p14',
@@ -158,9 +246,28 @@ const prodotti: Prodotto[] = [
     nome: 'Supradyn Ricarica',
     marca: 'Bayer',
     formato: '30 compresse effervescenti',
-    descrizione: 'Multivitaminico con magnesio e creatina contro la stanchezza.',
+    descrizione:
+      'Integratore multivitaminico con sali minerali, utile nei periodi di stanchezza.',
     categoria: 'integratori',
     piuCercato: true,
+    aspetto: {
+      forma: 'cilindro',
+      coloreSfondo: '#F28C00',
+      coloreFascia: '#C8102E',
+      coloreAccento: '#FFFFFF',
+      scritta: 'Supradyn',
+      sottoscritta: 'Ricarica',
+    },
+    specifiche: {
+      tipologia: 'Integratore alimentare',
+      principioAttivo: 'Vitamine del gruppo B, vitamina C, magnesio, ferro e zinco',
+      indicazioni:
+        'Integrazione di vitamine e minerali in caso di stanchezza o carenze nella dieta.',
+      modoUso:
+        "Sciogli una compressa in un bicchiere d'acqua, una volta al giorno.",
+      avvertenze:
+        'Non superare la dose giornaliera. Gli integratori non sostituiscono una dieta varia ed equilibrata.',
+    },
   },
   {
     id: 'p18',

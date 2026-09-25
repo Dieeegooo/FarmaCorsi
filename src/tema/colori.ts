@@ -11,6 +11,8 @@ const colori = {
   bordo: '#E0E0E0',
   errore: '#D32F2F',
   testoSuPrimario: '#FFFFFF',
+  ombra: '#000000', // usato con trasparenza per ombre e facce in ombra
+  attenzione: '#B25E00', // avvisi non gravi (es. "Solo 3 rimasti")
 };
 
 export default colori;

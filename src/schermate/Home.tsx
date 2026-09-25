@@ -9,6 +9,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SchedaProdotto from '../componenti/SchedaProdotto';
 import { useUtente } from '../contesti/ContestoUtente';
+import { PropsHome } from '../navigazione/tipiNavigazione';
 import IconaLogo from '../icone/IconaLogo';
 import IconaPosizione from '../icone/IconaPosizione';
 import { ottieniFarmacieVicine } from '../servizi/servizioFarmacie';
@@ -20,9 +21,11 @@ import { formattaTempoConsegna } from '../utilita/consegna';
 import { formattaDistanza } from '../utilita/distanza';
 import { salutaUtente } from '../utilita/saluto';
 
-// Home provvisoria del punto 1: saluto con il nome dell'utente loggato.
+// Home provvisoria: saluto con il nome dell'utente loggato e l'elenco dei
+// prodotti; toccando un prodotto si apre la sua pagina.
 // Ricerca, categorie e "Più cercati" arrivano al punto 2.
-function Home() {
+// navigation arriva dal navigatore: serve per aprire la pagina del prodotto.
+function Home({ navigation }: PropsHome) {
   // Il nome arriva dal contesto: nessuna prop da passare a mano.
   const { utente } = useUtente();
   const bordiSicuri = useSafeAreaInsets();
@@ -101,7 +104,14 @@ function Home() {
       data={prodotti}
       keyExtractor={prodotto => prodotto.id}
       ListHeaderComponent={intestazione}
-      renderItem={({ item }) => <SchedaProdotto prodotto={item} />}
+      renderItem={({ item }) => (
+        <SchedaProdotto
+          prodotto={item}
+          onPremi={() =>
+            navigation.navigate('DettaglioProdotto', { idProdotto: item.id })
+          }
+        />
+      )}
     />
   );
 }

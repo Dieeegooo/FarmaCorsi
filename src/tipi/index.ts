@@ -18,6 +18,33 @@ export type Categoria =
   | 'integratori'
   | 'igiene';
 
+// Forme di confezione che IllustrazioneProdotto sa disegnare.
+export type FormaConfezione = 'scatola' | 'tubo' | 'flacone' | 'cilindro';
+
+// Come disegnare la confezione di un prodotto (al posto di una foto).
+export type AspettoConfezione = {
+  forma: FormaConfezione;
+  coloreSfondo: string; // colore principale della confezione
+  coloreFascia: string; // fascia colorata con il nome
+  coloreAccento: string; // piccolo dettaglio decorativo
+  scritta: string; // nome grande sulla confezione
+  sottoscritta: string; // es. "500 mg"
+};
+
+export type Tipologia =
+  | 'Farmaco senza obbligo di ricetta'
+  | 'Integratore alimentare'
+  | 'Cosmetico';
+
+// Informazioni mostrate nella pagina del prodotto.
+export type SpecificheProdotto = {
+  tipologia: Tipologia;
+  principioAttivo: string;
+  indicazioni: string; // a cosa serve
+  modoUso: string; // come si usa
+  avvertenze: string;
+};
+
 export type Prodotto = {
   id: string;
   nome: string;
@@ -26,6 +53,10 @@ export type Prodotto = {
   descrizione: string;
   categoria: Categoria;
   piuCercato: boolean;
+  // Facoltativi (il "?"): per la demo solo alcuni prodotti li hanno.
+  // Con il backend arriverà qui anche l'URL della foto vera.
+  aspetto?: AspettoConfezione;
+  specifiche?: SpecificheProdotto;
 };
 
 export type Farmacia = {
