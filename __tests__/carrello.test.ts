@@ -1,10 +1,10 @@
 // Test del carrello: il riduttore è una funzione pura, si prova senza React.
 import {
-  calcolaRiepilogo,
   riduttoreCarrello,
   STATO_INIZIALE,
   StatoCarrello,
 } from '../src/contesti/riduttoreCarrello';
+import { calcolaRiepilogo } from '../src/utilita/riepilogoCarrello';
 import { leggiCarrello, salvaCarrello } from '../src/servizi/servizioCarrello';
 import { RigaCarrello } from '../src/tipi';
 

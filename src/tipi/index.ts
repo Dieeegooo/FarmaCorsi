@@ -65,6 +65,14 @@ export type Prodotto = {
   specifiche?: SpecificheProdotto;
 };
 
+// Posizione di consegna dell'utente (per ora simulata).
+export type Posizione = {
+  latitudine: number;
+  longitudine: number;
+  citta: string;
+  indirizzo: string; // precompilato nel Checkout
+};
+
 export type Farmacia = {
   id: string;
   nome: string;
@@ -102,14 +110,26 @@ export type RigaCarrello = ElementoCarrello & {
 export type MetodoPagamento = 'carta' | 'contanti';
 
 export type Ordine = {
-  id: string;
+  id: string; // numero d'ordine, es. "FC-482913"
   elementi: ElementoCarrello[];
   subtotale: number;
   costoConsegna: number;
   totale: number;
   indirizzo: string;
   metodoPagamento: MetodoPagamento;
-  dataOra: string;
+  dataOra: string; // data e ora dell'ordine in formato ISO
+  // In più rispetto alla SPEC: servono alla schermata di conferma.
+  note: string;
+  nomeFarmacia: string;
+  minutiConsegna: number;
+};
+
+// Riepilogo di un carrello: si calcola dalle righe, non si salva.
+export type RiepilogoCarrello = {
+  numeroElementi: number; // somma delle quantità (numero sul badge)
+  subtotale: number;
+  costoConsegna: number;
+  totale: number;
 };
 
 // Tipi "compositi" che i servizi restituiscono alle schermate:

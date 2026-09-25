@@ -86,9 +86,10 @@ function Carrello({ navigation }: PropsCarrello) {
         <Text style={styles.totale}>{formattaPrezzo(totale)}</Text>
       </View>
 
-      {/* Il checkout è il punto 5: per ora il pulsante è disattivato. */}
-      <Pulsante titolo="Procedi all'ordine" onPremi={() => {}} disattivato />
-      <Text style={styles.nota}>Il pagamento sarà disponibile a breve.</Text>
+      <Pulsante
+        titolo="Procedi all'ordine"
+        onPremi={() => navigation.navigate('Checkout')}
+      />
     </View>
   );
 
@@ -203,11 +204,6 @@ const styles = StyleSheet.create({
     fontSize: dimensioniTesto.grande,
     fontWeight: pesi.grassetto,
     color: colori.testo,
-  },
-  nota: {
-    fontSize: dimensioniTesto.piccolo,
-    color: colori.testoSecondario,
-    textAlign: 'center',
   },
 });
 

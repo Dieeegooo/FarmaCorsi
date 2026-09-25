@@ -3,8 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useUtente } from '../contesti/ContestoUtente';
 import IconaLogo from '../icone/IconaLogo';
+import Checkout from '../schermate/Checkout';
 import Login from '../schermate/Login';
-import { colori, spaziature } from '../tema';
+import OrdineConfermato from '../schermate/OrdineConfermato';
+import { colori, pesi, spaziature } from '../tema';
 import TabPrincipali from './TabPrincipali';
 import { ParametriStackRadice } from './tipiNavigazione';
 
@@ -33,7 +35,29 @@ function Navigatore() {
         {utente === null ? (
           <Stack.Screen name="Login" component={Login} />
         ) : (
-          <Stack.Screen name="Principale" component={TabPrincipali} />
+          // Fragment <>...</>: più schermate registrate insieme
+          <>
+            <Stack.Screen name="Principale" component={TabPrincipali} />
+            <Stack.Screen
+              name="Checkout"
+              component={Checkout}
+              options={{
+                headerShown: true,
+                title: 'Conferma ordine',
+                headerTintColor: colori.primario,
+                headerTitleStyle: {
+                  color: colori.testo,
+                  fontWeight: pesi.grassetto,
+                },
+              }}
+            />
+            <Stack.Screen
+              name="OrdineConfermato"
+              component={OrdineConfermato}
+              // niente gesto "indietro": l'ordine è già stato inviato
+              options={{ gestureEnabled: false }}
+            />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

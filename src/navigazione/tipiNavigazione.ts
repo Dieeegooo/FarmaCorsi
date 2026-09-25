@@ -4,16 +4,20 @@ import {
   NavigatorScreenParams,
 } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Categoria } from '../tipi';
+import { Categoria, Ordine } from '../tipi';
 
 // Per ogni navigatore: nome della schermata → parametri che riceve.
 // undefined = la schermata non riceve parametri.
 
-// Stack principale dell'app. Le due schermate non esistono mai insieme:
-// Login se l'utente NON è loggato, Principale (le tab) se è loggato.
+// Stack principale dell'app.
+// Utente NON loggato: solo Login.
+// Utente loggato: Principale (le tab) e, sopra, Checkout e OrdineConfermato
+// (a tutto schermo, senza la barra delle tab).
 export type ParametriStackRadice = {
   Login: undefined;
-  Principale: undefined;
+  Principale: NavigatorScreenParams<ParametriTab> | undefined;
+  Checkout: undefined;
+  OrdineConfermato: { ordine: Ordine };
 };
 
 // Tab in basso, per l'utente loggato.
@@ -48,5 +52,17 @@ export type PropsDettaglioProdotto = CompositeScreenProps<
   NativeStackScreenProps<ParametriStackHome, 'DettaglioProdotto'>,
   BottomTabScreenProps<ParametriTab>
 >;
-export type PropsCarrello = BottomTabScreenProps<ParametriTab, 'Carrello'>;
+// Il Carrello è una tab, ma deve aprire il Checkout dello stack principale.
+export type PropsCarrello = CompositeScreenProps<
+  BottomTabScreenProps<ParametriTab, 'Carrello'>,
+  NativeStackScreenProps<ParametriStackRadice>
+>;
+export type PropsCheckout = NativeStackScreenProps<
+  ParametriStackRadice,
+  'Checkout'
+>;
+export type PropsOrdineConfermato = NativeStackScreenProps<
+  ParametriStackRadice,
+  'OrdineConfermato'
+>;
 export type PropsProfilo = BottomTabScreenProps<ParametriTab, 'Profilo'>;

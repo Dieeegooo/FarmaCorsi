@@ -26,3 +26,16 @@ export function errorePassword(password: string): string | null {
   }
   return null;
 }
+
+// Indirizzo di consegna del Checkout: obbligatorio e non troppo corto.
+const LUNGHEZZA_MINIMA_INDIRIZZO = 8;
+
+export function erroreIndirizzo(indirizzo: string): string | null {
+  if (indirizzo.trim() === '') {
+    return "Inserisci l'indirizzo di consegna";
+  }
+  if (indirizzo.trim().length < LUNGHEZZA_MINIMA_INDIRIZZO) {
+    return 'Indirizzo troppo corto: aggiungi via e numero civico';
+  }
+  return null;
+}

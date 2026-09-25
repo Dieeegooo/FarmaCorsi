@@ -7,14 +7,10 @@ import {
   useState,
 } from 'react';
 import { leggiCarrello, salvaCarrello } from '../servizi/servizioCarrello';
-import { RigaCarrello } from '../tipi';
+import { RiepilogoCarrello, RigaCarrello } from '../tipi';
+import { calcolaRiepilogo } from '../utilita/riepilogoCarrello';
 import { useUtente } from './ContestoUtente';
-import {
-  calcolaRiepilogo,
-  RiepilogoCarrello,
-  riduttoreCarrello,
-  STATO_INIZIALE,
-} from './riduttoreCarrello';
+import { riduttoreCarrello, STATO_INIZIALE } from './riduttoreCarrello';
 
 // Esito di "aggiungi": se il carrello contiene prodotti di un'altra
 // farmacia non aggiungiamo niente e lo diciamo alla schermata, che

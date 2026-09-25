@@ -1,6 +1,4 @@
 import { RigaCarrello } from '../tipi';
-import { calcolaCostoConsegna } from '../utilita/consegna';
-import { arrotondaEuro } from '../utilita/prezzo';
 
 // Il "riduttore" (reducer) del carrello: una funzione PURA che riceve lo
 // stato attuale e un'azione, e restituisce il nuovo stato.
@@ -95,29 +93,4 @@ export function riduttoreCarrello(
     case 'ripristina':
       return { righe: azione.righe };
   }
-}
-
-// Riepilogo del carrello: si calcola dalle righe, non si salva
-// (è "stato derivato").
-export type RiepilogoCarrello = {
-  numeroElementi: number; // somma delle quantità (numero sul badge)
-  subtotale: number;
-  costoConsegna: number;
-  totale: number;
-};
-
-export function calcolaRiepilogo(righe: RigaCarrello[]): RiepilogoCarrello {
-  const numeroElementi = righe.reduce((somma, riga) => somma + riga.quantita, 0);
-  const subtotale = arrotondaEuro(
-    righe.reduce((somma, riga) => somma + riga.prezzo * riga.quantita, 0),
-  );
-  // Carrello vuoto: niente consegna da pagare.
-  const costoConsegna = righe.length === 0 ? 0 : calcolaCostoConsegna(subtotale);
-
-  return {
-    numeroElementi,
-    subtotale,
-    costoConsegna,
-    totale: arrotondaEuro(subtotale + costoConsegna),
-  };
 }

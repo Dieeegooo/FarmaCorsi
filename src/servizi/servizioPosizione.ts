@@ -1,4 +1,5 @@
-import posizioneUtente, { Posizione } from '../dati/posizioneUtente';
+import posizioneUtente from '../dati/posizioneUtente';
+import { Posizione } from '../tipi';
 
 // Posizione di consegna dell'utente. Per ora è simulata (centro di Sarzana);
 // quando useremo il GPS vero cambierà solo questa funzione.
