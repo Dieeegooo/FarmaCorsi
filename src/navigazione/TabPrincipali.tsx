@@ -77,7 +77,10 @@ function TabPrincipali() {
       <Tab.Screen
         name="Profilo"
         component={Profilo}
-        options={{ tabBarIcon: iconaProfilo }}
+        options={{
+          tabBarIcon: iconaProfilo,
+          tabBarButtonTestID: 'tab-profilo', // per trovarla nei test
+        }}
       />
     </Tab.Navigator>
   );
