@@ -75,3 +75,6 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Appunti personali per l'esame (non vanno nel repository)
+docs/appunti-esame.html
