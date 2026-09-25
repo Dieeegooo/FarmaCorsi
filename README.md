@@ -35,6 +35,22 @@ parafarmacia. I dati sono finti e il pagamento è simulato.
   simulato (carta o contanti) e conferma con numero d'ordine.
 - **Profilo** con i dati dell'utente e uscita con conferma.
 
+## Screenshot
+
+Schermate reali, catturate su un Samsung Galaxy A32.
+
+| Login | Home | Ricerca |
+|:---:|:---:|:---:|
+| <img src="docs/screenshot/01-login.png" alt="Login" width="220"> | <img src="docs/screenshot/02-home.png" alt="Home con ricerca, categorie, più cercati e farmacie vicine" width="220"> | <img src="docs/screenshot/03-ricerca.png" alt="Risultati della ricerca tachi" width="220"> |
+
+| Pagina prodotto | Scelta farmacia e quantità | Carrello |
+|:---:|:---:|:---:|
+| <img src="docs/screenshot/04-dettaglio.png" alt="Pagina della Tachipirina" width="220"> | <img src="docs/screenshot/05-acquisto.png" alt="Scelta della farmacia, quantità e aggiunta al carrello" width="220"> | <img src="docs/screenshot/06-carrello.png" alt="Carrello con riepilogo e consegna" width="220"> |
+
+| Checkout | Ordine confermato | Profilo |
+|:---:|:---:|:---:|
+| <img src="docs/screenshot/07-checkout.png" alt="Checkout con indirizzo, note e pagamento simulato" width="220"> | <img src="docs/screenshot/08-confermato.png" alt="Ordine confermato con numero e arrivo previsto" width="220"> | <img src="docs/screenshot/09-profilo.png" alt="Profilo con avatar e pulsante Esci" width="220"> |
+
 ## Tecnologie
 
 | Cosa | Scelta |
@@ -52,11 +68,28 @@ testo sono definiti in `src/tema/`.
 
 ### Requisiti
 
-- Node.js 22.11 o superiore
-- Ambiente React Native per Android (JDK e Android SDK), come descritto nella
-  [guida ufficiale](https://reactnative.dev/docs/set-up-your-environment)
-- Un telefono Android collegato via USB con il debug USB attivo, oppure un
-  emulatore
+| Strumento | Versione | Note |
+|---|---|---|
+| Node.js | 22.11 o superiore | indicato in `package.json` (`engines`) |
+| JDK | 17 | ad esempio Zulu o Temurin 17 |
+| Android SDK | platform 36 e 37, build-tools 37.0.0 | si installano da Android Studio (SDK Manager) |
+| Android NDK | 27.1.12297006 | Android Studio lo scarica alla prima compilazione se manca |
+| Gradle | 9.4.1 | non va installato: lo scarica `./gradlew` |
+
+Variabili d'ambiente (macOS, ad esempio in `~/.zshrc`):
+
+```sh
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools
+```
+
+La procedura completa, anche per Windows e Linux, è nella
+[guida ufficiale di React Native](https://reactnative.dev/docs/set-up-your-environment)
+(scegliere "React Native CLI", sistema operativo e "Android").
+
+Per provare l'app serve un telefono Android con le **Opzioni sviluppatore** e
+il **Debug USB** attivi (Impostazioni → Info telefono → toccare 7 volte
+"Numero build"), oppure un emulatore creato da Android Studio.
 
 ### Installazione
 
@@ -69,15 +102,23 @@ npm install
 ### Esecuzione su telefono Android
 
 ```sh
-adb devices                       # il telefono deve comparire nell'elenco
+adb devices                       # il telefono deve comparire come "device"
 adb reverse tcp:8081 tcp:8081     # collega il telefono a Metro
 npm start                         # avvia Metro (lasciarlo aperto)
 npm run android                   # in un secondo terminale: compila e installa
 ```
 
-Con Metro aperto, premi `r` nel terminale per ricaricare l'app dopo una
-modifica al codice. Dopo aver aggiunto una libreria con codice nativo va
-rilanciato `npm run android`.
+La prima compilazione richiede qualche minuto. Con Metro aperto, premi `r`
+nel terminale per ricaricare l'app dopo una modifica al codice. Dopo aver
+aggiunto una libreria con codice nativo va rilanciato `npm run android`.
+
+Senza cavo, dal telefono si può usare il **Debug wireless** (Android 11+):
+Opzioni sviluppatore → Debug wireless → "Associa dispositivo con codice", poi
+
+```sh
+adb pair <ip>:<porta-associazione>    # inserire il codice mostrato sul telefono
+adb connect <ip>:<porta>
+```
 
 Android è la piattaforma principale. iOS non è stato testato.
 
@@ -115,7 +156,7 @@ src/
 ├── tipi/           tipi TypeScript condivisi (Prodotto, Farmacia, Ordine...)
 └── utilita/        calcoli puri: distanza, consegna, prezzi, saluto, validazione
 __tests__/          test unitari e di integrazione
-docs/               specifica (SPEC.md) e logo dell'app
+docs/               specifica (SPEC.md), logo dell'app e screenshot
 ```
 
 ### Come sono collegati i livelli
@@ -168,6 +209,17 @@ I test coprono:
 - [`CLAUDE.md`](CLAUDE.md): convenzioni del progetto: tutto in italiano,
   niente emoji, stili solo dal tema, un componente per file.
 
+## Problemi comuni
+
+| Problema | Soluzione |
+|---|---|
+| Schermo rosso "Unable to load script" | Metro non è raggiungibile: controlla che `npm start` sia aperto e rilancia `adb reverse tcp:8081 tcp:8081` |
+| `adb devices` non mostra il telefono o dice `unauthorized` | Ricollega il cavo e accetta sul telefono la richiesta "Consenti debug USB" |
+| Porta 8081 già occupata | Chiudi l'altro Metro oppure avvia con `npm start -- --port 8082` e usa `adb reverse tcp:8082 tcp:8082` |
+| `SDK location not found` | Manca `ANDROID_HOME`: vedi "Requisiti", oppure crea `android/local.properties` con `sdk.dir=/percorso/Android/sdk` |
+| Errori strani dopo aver cambiato dipendenze | `npm start -- --reset-cache`; per la parte Android `cd android && ./gradlew clean` |
+| L'icona dell'app non si aggiorna | Disinstalla l'app dal telefono e rilancia `npm run android` |
+
 ## Fuori dall'MVP
 
 Idee per le prossime versioni:
@@ -176,6 +228,35 @@ Idee per le prossime versioni:
 - posizione GPS reale;
 - mappa delle farmacie e tracking del rider;
 - registrazione e storico degli ordini.
+
+## Riferimenti
+
+Documentazione usata per sviluppare il progetto:
+
+- [React Native: documentazione](https://reactnative.dev/docs/getting-started),
+  in particolare [componenti di base](https://reactnative.dev/docs/components-and-apis),
+  [FlatList](https://reactnative.dev/docs/flatlist) e
+  [StyleSheet e Flexbox](https://reactnative.dev/docs/flexbox)
+- [React: hook](https://react.dev/reference/react/hooks):
+  [useState](https://react.dev/reference/react/useState),
+  [useEffect](https://react.dev/reference/react/useEffect),
+  [useContext](https://react.dev/reference/react/useContext),
+  [useReducer](https://react.dev/reference/react/useReducer)
+- [React Navigation 7](https://reactnavigation.org/docs/getting-started):
+  [stack nativo](https://reactnavigation.org/docs/native-stack-navigator),
+  [tab in basso](https://reactnavigation.org/docs/bottom-tab-navigator),
+  [navigatori annidati](https://reactnavigation.org/docs/nesting-navigators),
+  [flusso di autenticazione](https://reactnavigation.org/docs/auth-flow),
+  [TypeScript](https://reactnavigation.org/docs/typescript)
+- [AsyncStorage](https://github.com/react-native-async-storage/async-storage)
+- [react-native-svg](https://github.com/software-mansion/react-native-svg)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [Jest](https://jestjs.io/docs/getting-started) e
+  [test in React Native](https://reactnative.dev/docs/testing-overview)
+- [Formula di Haversine](https://it.wikipedia.org/wiki/Formula_dell%27emisenoverso)
+  per la distanza tra due coordinate
+- [Conventional Commits](https://www.conventionalcommits.org/it/v1.0.0/)
+  per i messaggi di commit
 
 ## Autore
 
