@@ -89,6 +89,16 @@ export type ElementoCarrello = {
   quantita: number;
 };
 
+// Una riga del carrello: l'ElementoCarrello della SPEC più i dati che
+// servono per mostrarla (prodotto, farmacia, pezzi disponibili) senza
+// doverli richiedere ogni volta ai servizi.
+export type RigaCarrello = ElementoCarrello & {
+  prodotto: Prodotto;
+  nomeFarmacia: string;
+  minutiConsegna: number;
+  quantitaMassima: number; // pezzi disponibili in quella farmacia
+};
+
 export type MetodoPagamento = 'carta' | 'contanti';
 
 export type Ordine = {

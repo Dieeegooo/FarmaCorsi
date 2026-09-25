@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,6 +13,7 @@ import OpzioneFarmacia from '../componenti/OpzioneFarmacia';
 import Pulsante from '../componenti/Pulsante';
 import RigaSpecifica from '../componenti/RigaSpecifica';
 import SelettoreQuantita from '../componenti/SelettoreQuantita';
+import { useCarrello } from '../contesti/ContestoCarrello';
 import IconaOrologio from '../icone/IconaOrologio';
 import IconaPosizione from '../icone/IconaPosizione';
 import IconaSpunta from '../icone/IconaSpunta';
@@ -21,7 +24,7 @@ import {
   ottieniProdotto,
 } from '../servizi/servizioProdotti';
 import { colori, dimensioniTesto, pesi, raggi, spaziature } from '../tema';
-import { FarmaciaConProdotto, ProdottoConPrezzo } from '../tipi';
+import { FarmaciaConProdotto, ProdottoConPrezzo, RigaCarrello } from '../tipi';
 import { formattaTempoConsegna } from '../utilita/consegna';
 import { formattaDistanza } from '../utilita/distanza';
 import { arrotondaEuro, formattaPrezzo } from '../utilita/prezzo';
@@ -31,9 +34,11 @@ const SOGLIA_POCHI_PEZZI = 5;
 
 // Pagina del prodotto in stile Amazon: immagine, prezzo, riquadro di
 // acquisto (farmacia, quantità, carrello) e informazioni sul prodotto.
-function DettaglioProdotto({ route }: PropsDettaglioProdotto) {
+function DettaglioProdotto({ route, navigation }: PropsDettaglioProdotto) {
   // L'id arriva dalla Home tramite navigate('DettaglioProdotto', { idProdotto })
   const { idProdotto } = route.params;
+  const { aggiungi, svuotaEAggiungi, nomeFarmacia: farmaciaNelCarrello } =
+    useCarrello();
 
   const [prodotto, setProdotto] = useState<ProdottoConPrezzo | null>(null);
   const [farmacie, setFarmacie] = useState<FarmaciaConProdotto[]>([]);
@@ -105,9 +110,41 @@ function DettaglioProdotto({ route }: PropsDettaglioProdotto) {
   }
 
   function aggiungiAlCarrello() {
-    // Il carrello vero (Context globale) arriva al punto 4:
-    // per ora mostriamo solo la conferma.
-    setAggiunto(true);
+    if (prodotto === null) {
+      return;
+    }
+    const riga: RigaCarrello = {
+      idProdotto: prodotto.id,
+      idFarmacia: farmaciaScelta.id,
+      prezzo: farmaciaScelta.prezzo,
+      quantita,
+      prodotto,
+      nomeFarmacia: farmaciaScelta.nome,
+      minutiConsegna: farmaciaScelta.minutiConsegna,
+      quantitaMassima: farmaciaScelta.quantitaDisponibile,
+    };
+
+    if (aggiungi(riga) === 'aggiunto') {
+      setAggiunto(true);
+      return;
+    }
+
+    // Un ordine = una sola farmacia: chiediamo se svuotare il carrello.
+    Alert.alert(
+      'Carrello di un\'altra farmacia',
+      `Il carrello contiene prodotti di ${farmaciaNelCarrello}. Vuoi svuotarlo?`,
+      [
+        { text: 'Annulla', style: 'cancel' },
+        {
+          text: 'Svuota e aggiungi',
+          style: 'destructive',
+          onPress: () => {
+            svuotaEAggiungi(riga);
+            setAggiunto(true);
+          },
+        },
+      ],
+    );
   }
 
   return (
@@ -204,10 +241,18 @@ function DettaglioProdotto({ route }: PropsDettaglioProdotto) {
         {aggiunto ? (
           <View style={styles.conferma}>
             <IconaSpunta dimensione={22} colore={colori.primario} />
-            <Text style={styles.testoConferma}>
-              Aggiunto al carrello: {quantita} × {prodotto.nome} da{' '}
-              {farmaciaScelta.nome}
-            </Text>
+            <View style={styles.testiConferma}>
+              <Text style={styles.testoConferma}>
+                Aggiunto al carrello: {quantita} × {prodotto.nome} da{' '}
+                {farmaciaScelta.nome}
+              </Text>
+              <Pressable
+                onPress={() => navigation.navigate('Carrello')}
+                accessibilityRole="link"
+              >
+                <Text style={styles.linkConferma}>Vai al carrello</Text>
+              </Pressable>
+            </View>
           </View>
         ) : null}
       </View>
@@ -385,10 +430,19 @@ const styles = StyleSheet.create({
     borderRadius: raggi.piccolo,
     padding: spaziature.media,
   },
-  testoConferma: {
+  testiConferma: {
     flex: 1,
+    gap: spaziature.piccolissima,
+  },
+  testoConferma: {
     fontSize: dimensioniTesto.normale,
     color: colori.testo,
+  },
+  linkConferma: {
+    fontSize: dimensioniTesto.normale,
+    fontWeight: pesi.grassetto,
+    color: colori.primario,
+    textDecorationLine: 'underline',
   },
   titoloSezione: {
     fontSize: dimensioniTesto.grande,

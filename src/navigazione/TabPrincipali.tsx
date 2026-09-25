@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useCarrello } from '../contesti/ContestoCarrello';
 import IconaCarrello from '../icone/IconaCarrello';
 import IconaHome from '../icone/IconaHome';
 import IconaProfilo from '../icone/IconaProfilo';
@@ -31,6 +32,10 @@ function iconaProfilo({ color, size }: PropsIconaTab) {
 }
 
 function TabPrincipali() {
+  // Numero sul badge della tab Carrello: si aggiorna da solo quando il
+  // carrello cambia, perché il contesto fa ridisegnare questo componente.
+  const { numeroElementi } = useCarrello();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -50,7 +55,16 @@ function TabPrincipali() {
       <Tab.Screen
         name="Carrello"
         component={Carrello}
-        options={{ tabBarIcon: iconaCarrello }}
+        options={{
+          tabBarIcon: iconaCarrello,
+          // undefined = nessun badge (carrello vuoto)
+          tabBarBadge: numeroElementi > 0 ? numeroElementi : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: colori.primario,
+            color: colori.testoSuPrimario,
+            fontSize: dimensioniTesto.piccolo,
+          },
+        }}
       />
       <Tab.Screen
         name="Profilo"

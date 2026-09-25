@@ -1,4 +1,5 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Categoria } from '../tipi';
 
@@ -36,9 +37,11 @@ export type PropsRisultatiRicerca = NativeStackScreenProps<
   ParametriStackHome,
   'RisultatiRicerca'
 >;
-export type PropsDettaglioProdotto = NativeStackScreenProps<
-  ParametriStackHome,
-  'DettaglioProdotto'
+// Composite = props dello stack + props delle tab che lo contengono:
+// così dal dettaglio si può navigare anche alla tab "Carrello".
+export type PropsDettaglioProdotto = CompositeScreenProps<
+  NativeStackScreenProps<ParametriStackHome, 'DettaglioProdotto'>,
+  BottomTabScreenProps<ParametriTab>
 >;
 export type PropsCarrello = BottomTabScreenProps<ParametriTab, 'Carrello'>;
 export type PropsProfilo = BottomTabScreenProps<ParametriTab, 'Profilo'>;
