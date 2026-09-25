@@ -50,7 +50,14 @@ function TabPrincipali() {
       <Tab.Screen
         name="Home"
         component={StackHome}
-        options={{ tabBarIcon: iconaHome, headerShown: false }}
+        options={{
+          tabBarIcon: iconaHome,
+          headerShown: false,
+          // lasciando la tab Home il suo stack torna alla Vetrina:
+          // tornando sulla tab si riparte sempre dalla Home
+          popToTopOnBlur: true,
+          tabBarButtonTestID: 'tab-home', // per trovarla nei test
+        }}
       />
       <Tab.Screen
         name="Carrello"
