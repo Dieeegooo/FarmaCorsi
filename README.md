@@ -1,97 +1,182 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+<p align="center">
+  <img src="docs/logo-farmacorsi.svg" alt="Logo FarmaCorsi" width="96" height="96">
+</p>
 
-# Getting Started
+<h1 align="center">FarmaCorsi</h1>
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+<p align="center">
+  App mobile per ordinare prodotti da farmacia con consegna a domicilio.<br>
+  Progetto per l'UF16 "React Native" dell'ITS Prodigi.
+</p>
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+L'utente cerca un prodotto, vede quali farmacie ce l'hanno ordinate per
+distanza, con prezzo e tempo di consegna, lo mette nel carrello e conferma
+l'ordine. Il funzionamento è simile a Deliveroo o Glovo.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Sono disponibili solo prodotti senza obbligo di ricetta (OTC/SOP) e
+parafarmacia. I dati sono finti e il pagamento è simulato.
+
+## Funzionalità
+
+- **Login** con utenti di prova, validazione dei campi e sessione salvata:
+  riaprendo l'app si entra direttamente. La password non viene mai salvata.
+- **Home** con saluto in base all'ora, barra di ricerca, categorie,
+  prodotti più cercati e farmacie vicine.
+- **Ricerca** per nome o marca (senza badare a maiuscole e accenti) oppure
+  per categoria.
+- **Pagina prodotto** con illustrazione, specifiche, farmacie ordinate per
+  distanza, scelta della farmacia e della quantità.
+- **Carrello** globale con badge sulla tab, salvato sul telefono:
+  - una sola farmacia per ordine;
+  - consegna gratuita sopra i 30 €.
+- **Checkout** con indirizzo di consegna, note per il rider, pagamento
+  simulato (carta o contanti) e conferma con numero d'ordine.
+- **Profilo** con i dati dell'utente e uscita con conferma.
+
+## Tecnologie
+
+| Cosa | Scelta |
+|---|---|
+| Framework | React Native 0.87 (CLI, senza Expo) + TypeScript |
+| Navigazione | React Navigation 7: stack nativo e tab in basso |
+| Persistenza locale | AsyncStorage (sessione e carrello) |
+| Grafica | `StyleSheet` di React Native; icone e illustrazioni SVG con `react-native-svg` |
+| Test | Jest + react-test-renderer |
+
+Non usa librerie di componenti grafici: colori, spaziature e dimensioni del
+testo sono definiti in `src/tema/`.
+
+## Avvio
+
+### Requisiti
+
+- Node.js 22.11 o superiore
+- Ambiente React Native per Android (JDK e Android SDK), come descritto nella
+  [guida ufficiale](https://reactnative.dev/docs/set-up-your-environment)
+- Un telefono Android collegato via USB con il debug USB attivo, oppure un
+  emulatore
+
+### Installazione
 
 ```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+git clone https://github.com/Dieeegooo/FarmaCorsi.git
+cd FarmaCorsi
+npm install
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
+### Esecuzione su telefono Android
 
 ```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+adb devices                       # il telefono deve comparire nell'elenco
+adb reverse tcp:8081 tcp:8081     # collega il telefono a Metro
+npm start                         # avvia Metro (lasciarlo aperto)
+npm run android                   # in un secondo terminale: compila e installa
 ```
 
-### iOS
+Con Metro aperto, premi `r` nel terminale per ricaricare l'app dopo una
+modifica al codice. Dopo aver aggiunto una libreria con codice nativo va
+rilanciato `npm run android`.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+Android è la piattaforma principale. iOS non è stato testato.
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+### Utenti di prova
+
+| Email | Password |
+|---|---|
+| `diego@farmacorsi.it` | `password123` |
+| `giulia@farmacorsi.it` | `password123` |
+
+## Comandi
+
+| Comando | A cosa serve |
+|---|---|
+| `npm start` | Avvia Metro |
+| `npm run android` | Compila e installa l'app sul telefono |
+| `npx tsc --noEmit` | Controllo dei tipi TypeScript |
+| `npm run lint` | Controllo del codice con ESLint |
+| `npm test` | Esegue i test Jest |
+
+## Struttura del progetto
+
+```
+src/
+├── componenti/     componenti riutilizzabili (SchedaProdotto, CampoTesto, Pulsante...)
+├── contesti/       stato globale: utente e carrello (Context, useReducer)
+├── dati/           dati finti: farmacie, prodotti, disponibilità, utenti
+├── icone/          icone SVG, un componente per icona
+├── navigazione/    stack principale, tab, stack della Home e tipi delle rotte
+├── schermate/      Login, Home, RisultatiRicerca, DettaglioProdotto,
+│                   Carrello, Checkout, OrdineConfermato, Profilo
+├── servizi/        funzioni asincrone che leggono i dati: unico punto da
+│                   cambiare quando arriverà un'API vera
+├── tema/           colori, spaziature, dimensioni del testo
+├── tipi/           tipi TypeScript condivisi (Prodotto, Farmacia, Ordine...)
+└── utilita/        calcoli puri: distanza, consegna, prezzi, saluto, validazione
+__tests__/          test unitari e di integrazione
+docs/               specifica (SPEC.md) e logo dell'app
+```
+
+### Come sono collegati i livelli
+
+```
+schermate  →  componenti / icone
+    ↓
+contesti   (utente, carrello)
+    ↓
+servizi    (funzioni async, come un'API)
+    ↓
+dati       (finti)
+```
+
+Le schermate non importano mai direttamente da `src/dati/`: passano sempre da
+`src/servizi/`. Per collegare un backend vero basterà riscrivere l'interno dei
+servizi, senza toccare schermate e componenti.
+
+## Regole di calcolo
+
+- **Posizione dell'utente:** simulata, al centro di Sarzana (44.1113, 9.9596).
+- **Distanza:** in linea d'aria, con la formula di Haversine.
+- **Tempo di consegna:** 15 minuti + 4 minuti per km, arrotondato ai 5 minuti.
+- **Costo di consegna:** 2,99 €, gratis da 30 € di subtotale.
+- **Prezzi:** sempre con due decimali e la virgola (es. "4,90 €").
+
+## Test
 
 ```sh
-bundle install
+npm test
 ```
 
-Then, and every time you update your native dependencies, run:
+I test coprono:
 
-```sh
-bundle exec pod install
-```
+- **funzioni di calcolo:** saluto, distanza, consegna, prezzi, ricerca,
+  validazione;
+- **servizi:** login, sessione (compreso il controllo che la password non venga
+  salvata), prodotti, farmacie, ordini;
+- **carrello:** il reducer;
+- **flussi completi**, montando l'app intera:
+  - ingresso in Home con la sessione salvata;
+  - ordine dal carrello alla conferma;
+  - logout;
+  - ritorno alla Home dalle tab.
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## Documentazione
 
-```sh
-# Using npm
-npm run ios
+- [`docs/SPEC.md`](docs/SPEC.md): specifica dell'MVP (schermate, regole,
+  modelli dati).
+- [`CLAUDE.md`](CLAUDE.md): convenzioni del progetto: tutto in italiano,
+  niente emoji, stili solo dal tema, un componente per file.
 
-# OR using Yarn
-yarn ios
-```
+## Fuori dall'MVP
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Idee per le prossime versioni:
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+- backend vero al posto dei dati finti;
+- posizione GPS reale;
+- mappa delle farmacie e tracking del rider;
+- registrazione e storico degli ordini.
 
-## Step 3: Modify your app
+## Autore
 
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Diego Barbagallo, ITS Prodigi, UF16 React Native.
