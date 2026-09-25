@@ -45,6 +45,12 @@ export type SpecificheProdotto = {
   avvertenze: string;
 };
 
+// Una categoria con l'etichetta da mostrare a schermo.
+export type VoceCategoria = {
+  id: Categoria;
+  etichetta: string;
+};
+
 export type Prodotto = {
   id: string;
   nome: string;

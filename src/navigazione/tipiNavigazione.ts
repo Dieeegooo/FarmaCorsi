@@ -1,5 +1,6 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Categoria } from '../tipi';
 
 // Per ogni navigatore: nome della schermata → parametri che riceve.
 // undefined = la schermata non riceve parametri.
@@ -18,10 +19,12 @@ export type ParametriTab = {
   Profilo: undefined;
 };
 
-// Stack dentro la tab Home: dall'elenco si apre la pagina del prodotto.
-// DettaglioProdotto riceve l'id del prodotto da mostrare.
+// Stack dentro la tab Home: Vetrina → RisultatiRicerca → DettaglioProdotto.
+// RisultatiRicerca riceve il testo cercato OPPURE una categoria (per
+// questo sono facoltativi); DettaglioProdotto l'id del prodotto.
 export type ParametriStackHome = {
   Vetrina: undefined;
+  RisultatiRicerca: { testo?: string; categoria?: Categoria };
   DettaglioProdotto: { idProdotto: string };
 };
 
@@ -29,6 +32,10 @@ export type ParametriStackHome = {
 // (navigation per spostarsi, route per leggere i parametri).
 export type PropsLogin = NativeStackScreenProps<ParametriStackRadice, 'Login'>;
 export type PropsHome = NativeStackScreenProps<ParametriStackHome, 'Vetrina'>;
+export type PropsRisultatiRicerca = NativeStackScreenProps<
+  ParametriStackHome,
+  'RisultatiRicerca'
+>;
 export type PropsDettaglioProdotto = NativeStackScreenProps<
   ParametriStackHome,
   'DettaglioProdotto'

@@ -1,11 +1,6 @@
-import { Categoria } from '../tipi';
+import { VoceCategoria } from '../tipi';
 
 // Elenco delle categorie con l'etichetta da mostrare a schermo.
-export type VoceCategoria = {
-  id: Categoria;
-  etichetta: string;
-};
-
 const categorie: VoceCategoria[] = [
   { id: 'dolore-febbre', etichetta: 'Dolore e febbre' },
   { id: 'raffreddore', etichetta: 'Raffreddore e tosse' },

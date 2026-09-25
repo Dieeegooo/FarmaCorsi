@@ -1,12 +1,13 @@
 import prodotti from '../dati/prodotti';
 import disponibilita from '../dati/disponibilita';
 import farmacie from '../dati/farmacie';
-import categorieFinte, { VoceCategoria } from '../dati/categorie';
+import categorieFinte from '../dati/categorie';
 import {
   Categoria,
   FarmaciaConProdotto,
   Prodotto,
   ProdottoConPrezzo,
+  VoceCategoria,
 } from '../tipi';
 import { contiene } from '../utilita/testo';
 import { aggiungiDistanza } from './servizioFarmacie';

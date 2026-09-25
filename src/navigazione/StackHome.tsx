@@ -1,12 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DettaglioProdotto from '../schermate/DettaglioProdotto';
 import Home from '../schermate/Home';
+import RisultatiRicerca from '../schermate/RisultatiRicerca';
 import { colori, pesi } from '../tema';
 import { ParametriStackHome } from './tipiNavigazione';
 
 const Stack = createNativeStackNavigator<ParametriStackHome>();
 
-// Stack della tab Home: Vetrina → DettaglioProdotto.
+// Stack della tab Home: Vetrina → RisultatiRicerca → DettaglioProdotto.
 // La freccia "indietro" nella barra in alto la aggiunge React Navigation.
 function StackHome() {
   return (
@@ -21,6 +22,11 @@ function StackHome() {
         name="Vetrina"
         component={Home}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RisultatiRicerca"
+        component={RisultatiRicerca}
+        options={{ title: 'Risultati' }}
       />
       <Stack.Screen
         name="DettaglioProdotto"
