@@ -1,0 +1,8 @@
+<!-- Sorgente del logo di FarmaCorsi (stessa geometria dell'adaptive icon Android). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <rect width="108" height="108" rx="24" fill="#FFFFFF"/>
+  <path d="M45,45.63 A9,9 0 0 1 63,45.63" fill="none" stroke="#1B7F3B" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M37.26,45.63 L70.74,45.63 L68.85,68.26 Q68.57,71.67 65.16,71.67 L42.84,71.67 Q39.43,71.67 39.15,68.26 Z" fill="#1B7F3B"/>
+  <path d="M51.52,51.52 H56.48 V65.78 H51.52 Z" fill="#FFFFFF"/>
+  <path d="M46.87,56.17 H61.13 V61.13 H46.87 Z" fill="#FFFFFF"/>
+</svg>

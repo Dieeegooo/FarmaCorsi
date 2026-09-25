@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Versione a una sola tinta dell'icona: Android la usa quando l'utente
+     attiva le icone a tema. Qui la croce è un "buco" nel sacchetto
+     (fillType evenOdd), perché il colore lo decide il sistema. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <path
+        android:pathData="M45,45.63 A9,9 0 0 1 63,45.63"
+        android:strokeColor="#000000"
+        android:strokeWidth="2.4"
+        android:strokeLineCap="round" />
+
+    <path
+        android:pathData="M37.26,45.63 L70.74,45.63 L68.85,68.26 Q68.57,71.67 65.16,71.67 L42.84,71.67 Q39.43,71.67 39.15,68.26 Z M51.52,51.52 L56.48,51.52 L56.48,56.17 L61.13,56.17 L61.13,61.13 L56.48,61.13 L56.48,65.78 L51.52,65.78 L51.52,61.13 L46.87,61.13 L46.87,56.17 L51.52,56.17 Z"
+        android:fillColor="#000000"
+        android:fillType="evenOdd" />
+</vector>
